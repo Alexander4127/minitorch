@@ -50,7 +50,7 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
         named_params = list(self._parameters.items())
-        for module in self._modules.items():
+        for _, module in self._modules.items():
             for name, param in module.named_parameters():
                 named_params[name] = param
         return named_params
@@ -58,7 +58,7 @@ class Module:
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
         params = list(self._parameters.values())
-        for module in self._modules.items():
+        for _, module in self._modules.items():
             params += list(module.parameters())
         return params
 
