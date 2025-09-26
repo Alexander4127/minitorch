@@ -108,8 +108,8 @@ def test_sigmoid(a: float) -> None:
     * It is  strictly increasing.
     """
     assert 0.0 <= sigmoid(a) <= 1.0
-    assert assert_close(sigmoid(-a), (1 - sigmoid(a)))
-    assert assert_close(sigmoid(0.), 0.5)
+    assert_close(sigmoid(-a), (1 - sigmoid(a)))
+    assert_close(sigmoid(0.), 0.5)
     assert sigmoid(a + 1) >= sigmoid(a)
 
 
@@ -127,7 +127,7 @@ def test_symmetric() -> None:
     Write a test that ensures that :func:`minitorch.operators.mul` is symmetric, i.e.
     gives the same value regardless of the order of its input.
     """
-    assert assert_close(mul(2.35, 3.42), mul(3.42, 2.35))
+    assert_close(mul(2.35, 3.42), mul(3.42, 2.35))
 
 
 @pytest.mark.task0_2
@@ -136,7 +136,7 @@ def test_distribute() -> None:
     Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    assert assert_close(mul(1.12, add(2.35, 3.42)), add(mul(1.12, 2.35), mul(1.12, 3.42)))
+    assert_close(mul(1.12, add(2.35, 3.42)), add(mul(1.12, 2.35), mul(1.12, 3.42)))
 
 
 @pytest.mark.task0_2
