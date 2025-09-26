@@ -23,6 +23,7 @@ from minitorch.operators import (
     relu_back,
     sigmoid,
     sum,
+    zipWith,
 )
 
 from .strategies import assert_close, small_floats
