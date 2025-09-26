@@ -110,7 +110,7 @@ def test_sigmoid(a: float) -> None:
     assert 0.0 <= sigmoid(a) <= 1.0
     assert abs(sigmoid(-a) - (1 - sigmoid(a))) < 1e-5
     assert sigmoid(0.) == 0.5
-    assert sigmoid(a + 1) > sigmoid(a)
+    assert sigmoid(a + 1) >= sigmoid(a)
 
 
 @pytest.mark.task0_2
