@@ -108,7 +108,7 @@ class Mul(ScalarFunction):
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
         a, b = ctx.saved_values
-        return a * d_output, b * d_output
+        return b * d_output, a * d_output
 
 
 class Inv(ScalarFunction):
@@ -173,7 +173,7 @@ class Exp(ScalarFunction):
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         a = ctx.saved_values[0]
-        return operators.exp(a)
+        return operators.exp(a) * d_output
 
 
 class LT(ScalarFunction):

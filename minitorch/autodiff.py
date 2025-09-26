@@ -86,8 +86,7 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
         variable.accumulate_derivative(deriv)
         return
     for parent in variable.parents:
-        parent_deriv = parent.backward(deriv)
-        backpropagate(parent, parent_deriv)
+        parent.backward(deriv)
 
 
 @dataclass
