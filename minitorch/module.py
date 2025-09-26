@@ -49,11 +49,18 @@ class Module:
         Returns:
             The name and `Parameter` of each ancestor parameter.
         """
-        return list(self._parameters.items())
+        named_params = list(self._parameters.items())
+        for module in self._modules.items():
+            for name, param in module.named_parameters():
+                named_params[name] = param
+        return named_params
 
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
-        return list(self._parameters.values())
+        params = list(self._parameters.values())
+        for module in self._modules.items():
+            params += list(module.parameters())
+        return params
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """
