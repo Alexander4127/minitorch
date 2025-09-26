@@ -51,7 +51,7 @@ class Module:
         """
         named_params = dict(self._parameters.items())
         for _, module in self._modules.items():
-            for name, param in module.named_parameters():
+            for name, param in module.named_parameters().items():
                 named_params[name] = param
         return named_params
 
@@ -59,7 +59,7 @@ class Module:
         "Enumerate over all the parameters of this module and its descendents."
         params = list(self._parameters.values())
         for _, module in self._modules.items():
-            params += list(module.parameters())
+            params += module.parameters()
         return params
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
