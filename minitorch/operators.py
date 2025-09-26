@@ -174,7 +174,7 @@ def reduce(
     """
     def reduce_fn(ls1):
         elem = start
-        for cur_elem in ls1[1:]:
+        for cur_elem in ls1:
             elem = fn(cur_elem, elem)
         return elem
     return reduce_fn
