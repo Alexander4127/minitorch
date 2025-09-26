@@ -173,7 +173,7 @@ def reduce(
          fn(x_1, x_0)))`
     """
     def reduce_fn(ls1):
-        elem = ls1[0]
+        elem = start
         for cur_elem in ls1[1:]:
             elem = fn(cur_elem, elem)
         return elem
@@ -182,9 +182,9 @@ def reduce(
 
 def sum(ls: Iterable[float]) -> float:
     "Sum up a list using `reduce` and `add`."
-    return reduce(add)(ls)
+    return reduce(add, 0.)(ls)
 
 
 def prod(ls: Iterable[float]) -> float:
     "Product of a list using `reduce` and `mul`."
-    return reduce(mul)(ls)
+    return reduce(mul, 1.)(ls)
