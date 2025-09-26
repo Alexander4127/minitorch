@@ -103,6 +103,7 @@ class Mul(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
+        ctx.save_for_backward(a, b)
         return operators.mul(a, b)
 
     @staticmethod
@@ -116,12 +117,13 @@ class Inv(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
+        ctx.save_for_backward(a)
         return operators.inv(a)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         a = ctx.saved_values[0]
-        return - 1 / (a * a) * d_output
+        return - 1. / (a * a) * d_output
 
 
 class Neg(ScalarFunction):
@@ -141,6 +143,7 @@ class Sigmoid(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
+        ctx.save_for_backward(a)
         return operators.sigmoid(a)
 
     @staticmethod
@@ -155,6 +158,7 @@ class ReLU(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
+        ctx.save_for_backward(a)
         return operators.relu(a)
 
     @staticmethod
@@ -168,6 +172,7 @@ class Exp(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
+        ctx.save_for_backward(a)
         return operators.exp(a)
 
     @staticmethod
@@ -185,8 +190,7 @@ class LT(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        a, b = ctx.saved_values
-        return operators.lt(a, b) * d_output
+        return 0., 0.
 
 
 class EQ(ScalarFunction):
@@ -198,5 +202,4 @@ class EQ(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        a, b = ctx.saved_values
-        return operators.eq(a, b) * d_output
+        return 0., 0.

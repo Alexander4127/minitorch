@@ -162,7 +162,8 @@ class Scalar:
         assert h is not None
         assert h.last_fn is not None
         assert h.ctx is not None
-        return zip(self.parents, h.last_fn.backward(h.ctx, d_output))
+        backward_outs = h.last_fn.backward(h.ctx, d_output)
+        return zip(self.parents, backward_outs if isinstance(backward_outs, tuple) else (backward_outs,))
 
     def backward(self, d_output: Optional[float] = None) -> None:
         """
