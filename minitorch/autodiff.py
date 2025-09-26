@@ -25,7 +25,7 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
     x = list(vals)
     x_pe2 = x[:arg] + [x[arg] + epsilon / 2] + x[arg + 1:]
     x_me2 = x[:arg] + [x[arg] - epsilon / 2] + x[arg + 1:]
-    return f(*x_pe2) - f(*x_me2)
+    return (f(*x_pe2) - f(*x_me2)) / epsilon
 
 
 variable_count = 1
