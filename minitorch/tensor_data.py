@@ -240,8 +240,8 @@ class TensorData:
             range(len(self.shape))
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
 
-        new_shape = tuple(self._shape[list(order)])
-        new_strides = tuple(self._strides[list(order)])
+        new_shape = tuple(int(self._shape[sh]) for sh in order)
+        new_strides = tuple(int(self._strides[sh]) for sh in order)
         return TensorData(self._storage, new_shape, new_strides)
 
     def to_string(self) -> str:

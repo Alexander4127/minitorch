@@ -264,8 +264,14 @@ def tensor_map(
         in_shape: Shape,
         in_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        final_shape = shape_broadcast(in_shape, out_shape)
+        assert (final_shape == out_shape).all()
+        for i in range(operators.prod(out_shape).astype(int)):
+            big_index = np.array(out_shape)
+            to_index(i, out_shape, big_index)
+            in_index = np.array(in_shape)
+            broadcast_index(big_index, out_shape, in_shape, in_index)
+            out[index_to_position(big_index, out_strides)] = fn(in_storage[index_to_position(in_index, in_strides)])
 
     return _map
 
@@ -309,8 +315,17 @@ def tensor_zip(
         b_shape: Shape,
         b_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        assert (shape_broadcast(a_shape, out_shape) == out_shape).all() and (shape_broadcast(b_shape, out_shape) == out_shape).all()
+        for i in range(operators.prod(out_shape).astype(int)):
+            big_index = np.array(out_shape)
+            to_index(i, out_shape, big_index)
+            a_index = np.array(a_shape)
+            broadcast_index(big_index, out_shape, a_shape, a_index)
+            b_index = np.array(b_shape)
+            broadcast_index(big_index, out_shape, b_shape, b_index)
+            out[index_to_position(big_index, out_strides)] = fn(
+                a_storage[index_to_position(a_index, a_strides)], b_storage[index_to_position(b_index, b_strides)]
+            )
 
     return _zip
 
@@ -340,8 +355,18 @@ def tensor_reduce(
         a_strides: Strides,
         reduce_dim: int,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        reduce_shape = a_shape[reduce_dim]
+        for i in range(operators.prod(out_shape).astype(int)):
+            out_index = np.array(out_shape)
+            to_index(i, out_shape, out_index)
+
+            a_index = np.array(out_index)
+            start = a_storage[index_to_position(a_index, a_strides)]
+            for k in range(1, reduce_shape):
+                a_index[reduce_dim] = k
+                start = fn(start, a_storage[index_to_position(a_index, a_strides)])
+
+            out[index_to_position(out_index, out_strides)] = start
 
     return _reduce
 
